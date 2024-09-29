@@ -1,0 +1,13 @@
+[SddmGreeterTheme]
+Name=Canvas Sddm
+Description=a canvas sddm theme
+Type=sddm-theme
+Version=1.0
+Website=https://github.com/localghost385/canvas-sddm
+Screenshot=Preview.png
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=translations
+Theme-Id=Canvas
+Theme-API=2.11
+License=MIT
