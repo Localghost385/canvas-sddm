@@ -239,6 +239,91 @@ Column {
 
     }
 
+            Item {
+        id: login
+        height: root.font.pointSize * 3
+        width: parent.width / 2
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        Button {
+            id: loginButton
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: config.TranslateLogin || textConstants.login
+            height: root.font.pointSize * 3
+            implicitWidth: parent.width
+            enabled: username.text !== "" && password.text !== "" ? true : false
+            hoverEnabled: true
+
+            contentItem: Text {
+                text: parent.text
+                color: "white"
+                font.pointSize: root.font.pointSize
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            background: Rectangle {
+                id: buttonBackground
+                color: root.palette.text
+                radius: config.RoundCorners || 0
+            }
+
+            states: [
+                State {
+                    name: "disabled"
+                    when: !loginButton.enabled
+                    PropertyChanges {
+                        target: buttonBackground
+                        color: "#888888"
+                    }
+                },
+                State {
+                    name: "pressed"
+                    when: loginButton.down
+                    PropertyChanges {
+                        target: buttonBackground
+                        color: "#444444"
+                    }
+                },
+                State {
+                    name: "hovered"
+                    when: loginButton.hovered
+                    PropertyChanges {
+                        target: buttonBackground
+                        color: Qt.lighter(config.AccentColor, 1.2) || Qt.lighter("orange", 1.2)
+                    }
+                },
+                State {
+                    name: "focused"
+                    when: loginButton.visualFocus
+                    PropertyChanges {
+                        target: buttonBackground
+                        color: config.AccentColor
+                    }
+                }
+            ]
+
+            transitions: [
+                Transition {
+                    from: "disabled"; to: ""
+                    PropertyAnimation {
+                        properties: "color"
+                        duration: 500
+                    }
+                },
+                Transition {
+                    PropertyAnimation {
+                        properties: "color"
+                        duration: 100
+                    }
+                }
+            ]
+
+            Keys.onReturnPressed: clicked()
+            onClicked: username.text !== "" && password.text !== "" ? sddm.login(username.text, password.text, sessionSelector.selectedSession) : sddm.loginFailed()
+        }
+    }
+
     Item {
         height: root.font.pointSize * 2.3
         width: parent.width / 2
